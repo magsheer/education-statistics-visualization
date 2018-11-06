@@ -1,0 +1,63 @@
+* {
+     font-family: 'Roboto', sans-serif;
+}
+ body{
+     margin: 0px;
+    /*background-color: #f2f2f2;*/
+}
+/*----------------------------------------NAVIGATION BAR-----------------------------------------*/
+ .topnav {
+     overflow: hidden;
+     background-color: #000;
+}
+ .topnav a {
+     float: right;
+     color: #f2f2f2;
+     text-align: center;
+     padding: 14px 16px;
+     text-decoration: none;
+     font-size: 15px;
+}
+ .topnav h1 {
+     float: left;
+     color: #f2f2f2;
+     text-align: center;
+     padding: 0px 16px;
+     text-decoration: none;
+     font-size: 18px;
+}
+ .topnav a:hover {
+     background-color: #ddd;
+     color: black;
+}
+ .topnav a.active {
+     background-color: #19407f;
+     color: white;
+}
+
+/*------------------------------------------WORLD MAP----------------------------------------------*/
+ .map-stroke {
+     fill: none;
+     stroke: #000;
+     stroke-width: 2px;
+}
+ .map-fill {
+     fill: #fff;
+}
+
+ .country{
+     fill: grey;
+ }
+
+ .graticule {
+     fill: none;
+     stroke: #bfbfbf;
+     stroke-width: .5px;
+     stroke-opacity: .5;
+}
+
+/*-------------------------------------------DROPDOWN-----------------------------------------------*/
+.dropdown{
+     margin-left: 5px;
+     margin-top: 10px;
+}
