@@ -2,14 +2,13 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Education Viz</title>
-  <script src="//d3js.org/d3.v3.min.js"></script>
-  <script src="//d3js.org/d3.geo.projection.v0.min.js"></script>
-  <script src="//d3js.org/topojson.v1.min.js"></script>
-  
-  <link rel="stylesheet" href="css/navigation.css" />
-  <link rel="stylesheet" href="css/style.css" />
+  <title>Education Statistics Visualization</title>
 
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.js"></script>
+
+  <link rel="stylesheet" href="css/style.css" />
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
   
@@ -23,11 +22,20 @@
     <a href="#about">About</a>
     <h1>Education Statistics</h1>
   </div>
-<div class="dropdown">
+<div class="allcharts">
+<div class = "firstgroup">
+  <div id="dropdown"></div>
+  <label id="year">1940</label>
+  <div id="yearslider"></div>
 </div>
-</div>
+
+<div>
     <div id="worldmap"></div>
     <div id="sunburst"></div>
+</div>
+
+<p style = "margin-left: 20px">Source: World Bank Education Statistics.</p>
+</div>
 </body>
 <script src="js/map.js"></script>
 <script src="js/script.js"></script> 
