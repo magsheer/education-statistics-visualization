@@ -1,3 +1,4 @@
+loadData().then(allCSVdata => {
 /*-------------------------------------------DROPDOWN-----------------------------------------------*/
 let dropdown_data = ["Adult literacy rate, population 15+ years, both sexes (%)", "Adult literacy rate, population 15+ years, female (%)","Adult literacy rate, population 15+ years, male (%)", "Adult literacy rate, population 15+ years, gender parity index (GPI)"];
 
@@ -16,7 +17,7 @@ let options = select
 var slider = d3.select("#yearslider")
         .append("input")
             .attr("type", "range")
-            .attr("min", 1940)
+            .attr("min", 1970)
             .attr("max", 2018)
             .attr("step", 1)
             .on("input", function() {
@@ -31,7 +32,8 @@ function update(year){
 
 
 /*-------------------------------------------INITIAL MAP-----------------------------------------------*/
-let mapObject = new Map();
+
+let mapObject = new Map(allCSVdata, 'indicator1');
 d3.json('data/world.json').then(mapData => {
         mapObject.drawMap(mapData);
     });
@@ -47,3 +49,30 @@ function onchange() {
     //     .append('p')
     //     .text(selectValue + ' is the last selected option.');
 };
+});
+
+/*-----------------------------------------LOAD CSV-------------------------------------------------*/
+async function loadFile(file) {
+    let data = await d3.csv(file).then(d => {
+        let mapped = d.map(g => {
+            for (let key in g) {
+                let numKey = +key;
+                if (numKey) {
+                    g[key] = +g[key];
+                }
+            }
+            return g;
+        });
+        return mapped;
+    });
+    return data;
+}
+
+
+async function loadData() {
+    let indicator1 = await loadFile('data/adult_literacy_rate_both_sexes.csv');
+
+    return {
+        'indicator1': indicator1,
+    };
+}
