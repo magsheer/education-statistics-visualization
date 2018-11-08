@@ -13,12 +13,22 @@ let options = select
     .append('option')
         .text(function (d) { return d; });
 
+
+
+/*-------------------------------------------INITIAL MAP-----------------------------------------------*/
+
+let mapObject = new Map(allCSVdata, 'indicator1');
+d3.json('data/world.json').then(mapData => {
+        mapObject.drawMap(mapData);
+    });
+
+
 /*-------------------------------------------YEAR SLIDER-----------------------------------------------*/
 var slider = d3.select("#yearslider")
         .append("input")
             .attr("type", "range")
             .attr("min", 1970)
-            .attr("max", 2018)
+            .attr("max", 2017)
             .attr("step", 1)
             .on("input", function() {
                 var year = this.value;
@@ -28,15 +38,8 @@ var slider = d3.select("#yearslider")
 function update(year){
         slider.property("value", year);
         d3.select("#year").text(year);
+        mapObject.updateMap(year);
     }
-
-
-/*-------------------------------------------INITIAL MAP-----------------------------------------------*/
-
-let mapObject = new Map(allCSVdata, 'indicator1');
-d3.json('data/world.json').then(mapData => {
-        mapObject.drawMap(mapData);
-    });
    
 
 /*------------------------------------------WORLD MAP----------------------------------------------*/
