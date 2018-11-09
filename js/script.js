@@ -15,21 +15,26 @@ let options = select
 
 
 
-/*-------------------------------------------INITIAL MAP-----------------------------------------------*/
+/*-------------------------------------------INITIAL MAP, CHARTS-----------------------------------------------*/
 
 let mapObject = new Map(allCSVdata, 'indicator1');
 d3.json('data/world.json').then(mapData => {
         mapObject.drawMap(mapData);
     });
 
+let lineObject = new lineChart(allCSVdata, 'indicator1');
+lineObject.drawPlot();
+
 
 /*-------------------------------------------YEAR SLIDER-----------------------------------------------*/
-var slider = d3.select("#yearslider")
+let slider = d3.select("#yearslider")
         .append("input")
             .attr("type", "range")
             .attr("min", 1970)
             .attr("max", 2017)
             .attr("step", 1)
+            //initial year
+            .property("value",2016)
             .on("input", function() {
                 var year = this.value;
                 update(year);
@@ -42,7 +47,7 @@ function update(year){
     }
    
 
-/*------------------------------------------WORLD MAP----------------------------------------------*/
+/*------------------------------------------WORLD MAP ON CHANGES----------------------------------------------*/
 
 function onchange() {
     selectValue = d3.select('select').property('value');

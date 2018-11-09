@@ -14,14 +14,14 @@ class Map {
                     .domain([1, 100])
                     .range(d3.schemeYlGnBu[9]);
 
-        let format = d3.format("")
+        let format = d3.format("");
 
         let x = d3.scaleLinear()
                     .domain(d3.extent(color.domain()))
                     .rangeRound([650, 900]);
 
         let width = 960,
-            height = 580;
+            height = 500;
 
         let projection = d3.geoWinkel3().scale(140).translate([365, 225]);
         let geojson = topojson.feature(world, world.objects.countries);
@@ -45,10 +45,10 @@ class Map {
                     if(that.indicatorData[index].yr_2006!="")
                         return color(parseFloat(that.indicatorData[index].yr_2006));
                     else
-                        return "grey";
+                        return "#bababa";
                 }
                 else
-                    return "grey";
+                    return "#bababa";
             });
 
 
@@ -88,10 +88,10 @@ class Map {
                     if(that.indicatorData[index][yr_csv]!="")
                         return color(parseFloat(that.indicatorData[index][yr_csv]));
                     else
-                        return "grey";
+                        return "#bababa";
                 }
                 else
-                    return "grey";
+                    return "#bababa";
             });
 
     }

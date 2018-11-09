@@ -16,7 +16,7 @@
 <body>
   <div class="topnav">
     <a id="git_repo" href="https://github.com/magsheer/education-statistics-visualization" target="_blank">Git Repository</a>
-    <a id="process_book" href="process_book.html">Process Book</a>
+    <a id="process_book" href="processBook.html" target="_blank">Process Book</a>
     <a id="project_video" href="#news">Project Video</a>
     <a id="visualization" class="active">Visualization</a>
     <a href="#about">About</a>
@@ -25,18 +25,30 @@
 <div class="allcharts">
 <div class = "firstgroup">
   <div id="dropdown"></div>
-  <label id="year">1970</label>
+  <label id="year">2016</label>
   <div id="yearslider"></div>
+  <input type="radio" name="country_region" id="country_radio" value="country"> Country
+  <input type="radio" name="country_region" id="region_radio" value="region"> Region<br>
 </div>
 
+<div class = "secondgroup">
 <div>
     <div id="worldmap"></div>
     <div id="sunburst"></div>
 </div>
+</div>
 
-<p style = "margin-left: 20px">Source: World Bank Education Statistics.</p>
+<div class ="thirdgroup">
+<div id="linechart">
+</div>
+<input type="checkbox" name="compareworlddata" value="compareworld"> Compare with world data<br>
+</div>
+<div id="heatmap"></div>
+
+<p style = "margin-left: 20px; color:grey; font-size: 15px;">Source: World Bank Education Statistics.</p>
 </div>
 </body>
+<script src="js/lineChart.js"></script>
 <script src="js/map.js"></script>
 <script src="js/script.js"></script> 
 </html>
