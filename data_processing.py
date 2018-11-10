@@ -14,7 +14,8 @@ with open('data/adult_literacy_rate_gpi.csv', mode='w') as employee_file:
         line_count = 0
         for row in csv_reader:
             if line_count == 0:
-                employee_writer.writerow(row)            
+                employee_writer.writerow(row)
+                line_count += 1
             if row[2] == 'Adult literacy rate, population 15+ years, gender parity index (GPI)':
                 employee_writer.writerow(row)
                 line_count += 1
@@ -29,6 +30,7 @@ with open('data/adult_literacy_rate_female.csv', mode='w') as employee_file:
         for row in csv_reader:
             if line_count == 0:
                 employee_writer.writerow(row)
+                line_count += 1
             if row[2] == 'Adult literacy rate, population 15+ years, female (%)':
                 employee_writer.writerow(row)
                 line_count += 1
@@ -38,13 +40,12 @@ with open('data/adult_literacy_rate_male.csv', mode='w') as employee_file:
     employee_writer = csv.writer(employee_file, delimiter=',')
 
     with open('data/EdStatsData.csv') as csv_file:
-        if line_count == 0:
-            employee_writer.writerow(row)        
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
             if line_count == 0:
-                employee_writer.writerow(row)            
+                employee_writer.writerow(row)   
+                line_count += 1
             if row[2] == 'Adult literacy rate, population 15+ years, male (%)':
                 employee_writer.writerow(row)
                 line_count += 1
