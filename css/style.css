@@ -73,6 +73,18 @@
     fill: #d9d9d9;
 }
 
+#worldmap{
+    float: left;
+    width: 850px;
+}
+
+/*-----------------------------------------SUNBURST CHART---------------------------------------------*/
+#sunburst{
+    float: left;
+    width: 500px;
+}
+
+
 /*-------------------------------------------LINE CHART-----------------------------------------------*/
 .thirdgroup    {
      margin-top: 20px;
@@ -93,4 +105,8 @@
   fill: white;
   stroke: steelblue;
   stroke-width: 1.5px;
+}
+
+#linechart{
+    width: 1250px;
 }
