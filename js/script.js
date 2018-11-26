@@ -1,3 +1,4 @@
+
 loadData().then(allCSVdata => {
 /*-------------------------------------------DROPDOWN-----------------------------------------------*/
 let dropdown_data = ["Adult literacy rate, population 15+ years, both sexes (%)", "Adult literacy rate, population 15+ years, female (%)","Adult literacy rate, population 15+ years, male (%)", "Adult literacy rate, population 15+ years, gender parity index (GPI)"];
@@ -58,6 +59,11 @@ function onchange() {
     //     .text(selectValue + ' is the last selected option.');
 };
 });
+
+/*---------------------------------------------SUNBURST CHART-------------------------------------------------*/
+
+let sunburstObject = new Sunburst();
+sunburstObject.drawSunburst();
 
 /*-----------------------------------------LOAD CSV-------------------------------------------------*/
 async function loadFile(file) {
