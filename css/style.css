@@ -78,6 +78,11 @@
     width: 850px;
 }
 
+path.clicked{
+    stroke: white;     
+    stroke-width: 1.5;      
+}
+
 /*-----------------------------------------SUNBURST CHART---------------------------------------------*/
 #sunburst{
     float: left;

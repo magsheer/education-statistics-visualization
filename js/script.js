@@ -15,15 +15,11 @@ let options = select
                 .text(function (d) { return d; });
 
 function onDropdownChange() {
-    // let selectValue = d3.select('select').property('value');
-    // console.log(selectValue);s
-    // d3.select("#worldmap").select("svg").remove();
-    // let newMapObject = new Map();
     // d3.select('body')
     //     .append('p')
     //     .text(selectValue + ' is the last selected option.');
     let year = d3.select("#yearslider").select('input').property('value');
-    mapObject.updateCountryMap(year);
+    mapObject.updateMap(year);
 };
 
 /*-------------------------------------------RADIOBUTTONS-----------------------------------------------*/
@@ -32,21 +28,9 @@ let radios = d3.select("#radiobuttons")
                 .on("change",onRadiobuttonChange);
 
 function onRadiobuttonChange(){
-    // let form = document.getElementById("radiobuttons");
-    // let form_val;
-    // for(let i=0; i<form.length; i++){
-    //         if(form[i].checked)
-    //           form_val = form[i].id;
-    //       }
-    // if(form_val == "region_radio"){
-    //     console.log("call regionmap");
-    // }
-    // else{
-    //     let year = d3.select("#yearslider").select('input').property('value');
-    //     mapObject.updateCountryMap(year);
-    // }
+    
         let year = d3.select("#yearslider").select('input').property('value');
-        mapObject.updateCountryMap(year);
+        mapObject.updateMap(year);
 
 }
 
@@ -82,12 +66,8 @@ let slider = d3.select("#yearslider")
 function update(year){
         slider.property("value", year);
         d3.select("#year").text(year);
-        mapObject.updateCountryMap(year);
+        mapObject.updateMap(year);
     }
-   
-
-/*------------------------------------------WORLD MAP ON CHANGES----------------------------------------------*/
-
 
 });
 

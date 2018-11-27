@@ -14,6 +14,8 @@ class Map {
         //find out the indicator selected
         let indicatorSelected = this.findIndicator();
         let indicatorData = this.data[indicatorSelected];
+
+        //find the year on year slider
         let year = this.findyear();
 
         let color = d3.scaleQuantize()
@@ -37,13 +39,16 @@ class Map {
             .attr("width", width)
             .attr("height", height);
 
-
+        //initial countries map
         let allPaths = svg.selectAll("path")
             .data(geojson.features)
             .enter()
             .append("path")
             .attr("d",path)
             .attr("id",function(d){return d.id})
+            // .on("mouseover", this.handleMouseOver)
+            // .on("mouseout", this.handleMouseOut)
+            .on("click", this.handleClick)
             .attr("class",function(d){
                 if(that.nameArray.includes(d.id)){
                     let index = that.nameArray.indexOf(d.id);
@@ -65,6 +70,7 @@ class Map {
             });
 
 
+        //color legend
         let g = svg.append("g")
                     .attr("transform", "translate(-100,450)");
 
@@ -86,10 +92,11 @@ class Map {
         .remove();
     }
 
-    updateCountryMap(year){
+    updateMap(year){
         let that = this;
         let yr_csv = "yr_"+year;
 
+        //get the data selected
         let indicatorSelected = this.findIndicator();
         let indicatorData = this.data[indicatorSelected];
 
@@ -97,6 +104,7 @@ class Map {
                 .domain([1, 100])
                 .range(d3.schemeYlGnBu[9]);
 
+        //check for country or region
         let form = document.getElementById("radiobuttons");
         let form_val;
         for(let i=0; i<form.length; i++){
@@ -104,6 +112,7 @@ class Map {
               form_val = form[i].id;
           }
 
+        //retrive region data and fill 
         if(form_val == "region_radio"){
             let allPaths = d3.select("#worldmap").selectAll("path")
                 .attr("fill",function(d){
@@ -126,6 +135,7 @@ class Map {
 
         }
 
+        //else fill according to country colors
         else{
             let allPaths = d3.select("#worldmap").selectAll("path")
                 .attr("fill",function(d){
@@ -143,31 +153,6 @@ class Map {
 
     }
 
-    // updateRegionMap(year){
-    //     let that = this;
-    //     let yr_csv = "yr_"+year;
-
-    //     let indicatorSelected = this.findIndicator();
-    //     let indicatorData = this.data[indicatorSelected];
-
-    //    let color = d3.scaleQuantize()
-    //             .domain([1, 100])
-    //             .range(d3.schemeYlGnBu[9]);
-
-    //     let allPaths = d3.select("#worldmap").selectAll("path")
-    //         .attr("fill",function(d){
-    //             if(that.nameArray.includes(d.id)){
-    //                 let index = that.nameArray.indexOf(d.id);
-    //                 if(indicatorData[index][yr_csv]!="")
-    //                     return color(parseFloat(indicatorData[index][yr_csv]));
-    //                 else
-    //                     return "#bababa";
-    //             }
-    //             else
-    //                 return "#bababa";
-    //         });
-    // }
-
     findIndicator(){
         let selectValue = d3.select('select').property('value');
         switch(selectValue){
@@ -183,5 +168,43 @@ class Map {
     findyear(){
         let year = d3.select("#yearslider").select('input').property('value');
         return "yr_"+year;
+    }
+
+    handleMouseOver(){
+        d3.select(this)
+            .classed("hovered",true);
+    }
+
+    handleMouseOut(){
+        d3.select(this)
+            .classed("hovered",false);
+    }
+
+    handleClick(){
+      d3.selectAll(".clicked").classed("clicked",false);
+
+      let color = document.getElementById(d3.select(this).property('id')).getAttribute("fill");
+
+              //check for country or region
+    let form = document.getElementById("radiobuttons");
+    let form_val;
+    for(let i=0; i<form.length; i++){
+        if(form[i].checked)
+          form_val = form[i].id;
+      }
+
+
+      if(color != "#bababa"){
+        if(form_val=="region_radio"){
+            let class_clicked = "." + document.getElementById(d3.select(this).property('id')).getAttribute("class");
+            d3.selectAll(class_clicked)
+                .classed("clicked",true);
+
+        }
+        else{
+            d3.select(this)
+                .classed("clicked",true);
+        }
+        }
     }
 }
