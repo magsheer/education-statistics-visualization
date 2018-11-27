@@ -2,13 +2,19 @@
 
 class Map {
 
-    constructor(data, csvName) {
-        this.nameArray = data[csvName].map(d => d.Country_Code);
-        this.indicatorData = data[csvName];
+    constructor(data) {
+        this.data=data;
+        this.nameArray = data["indicator1"].map(d => d.Country_Code);
+        // this.indicatorData = data[csvName];
     }
 
-    drawMap(world) {
+    drawMapCountry(world) {
         let that = this;
+
+        //find out the indicator selected
+        let indicatorSelected = this.findIndicator();
+        let indicatorData = this.data[indicatorSelected];
+        let year = this.findyear();
 
         let color = d3.scaleQuantize()
                     .domain([1, 100])
@@ -42,8 +48,8 @@ class Map {
             .attr("fill",function(d){
                 if(that.nameArray.includes(d.id)){
                     let index = that.nameArray.indexOf(d.id);
-                    if(that.indicatorData[index].yr_2006!="")
-                        return color(parseFloat(that.indicatorData[index].yr_2006));
+                    if(indicatorData[index][year]!="")
+                        return color(parseFloat(indicatorData[index][year]));
                     else
                         return "#bababa";
                 }
@@ -73,9 +79,12 @@ class Map {
         .remove();
     }
 
-    updateMap(year){
+    updateCountryMap(year){
         let that = this;
         let yr_csv = "yr_"+year;
+
+        let indicatorSelected = this.findIndicator();
+        let indicatorData = this.data[indicatorSelected];
 
        let color = d3.scaleQuantize()
                 .domain([1, 100])
@@ -85,8 +94,8 @@ class Map {
             .attr("fill",function(d){
                 if(that.nameArray.includes(d.id)){
                     let index = that.nameArray.indexOf(d.id);
-                    if(that.indicatorData[index][yr_csv]!="")
-                        return color(parseFloat(that.indicatorData[index][yr_csv]));
+                    if(indicatorData[index][yr_csv]!="")
+                        return color(parseFloat(indicatorData[index][yr_csv]));
                     else
                         return "#bababa";
                 }
@@ -94,5 +103,22 @@ class Map {
                     return "#bababa";
             });
 
+    }
+
+    findIndicator(){
+        let selectValue = d3.select('select').property('value');
+        switch(selectValue){
+            case "Adult literacy rate, population 15+ years, both sexes (%)":
+                return "indicator1";
+            case "Adult literacy rate, population 15+ years, female (%)":
+                return "indicator2";
+            case "Adult literacy rate, population 15+ years, male (%)":
+                return "indicator3";
+        }
+    }
+
+    findyear(){
+        let year = d3.select("#yearslider").select('input').property('value');
+        return "yr_"+year;
     }
 }

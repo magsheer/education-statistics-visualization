@@ -22,9 +22,9 @@ class Sunburst{
 		  //coloscale
 		  let colorScale = d3.scaleOrdinal().range([
 		    // "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"
-		    "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2271b5", "#09519c", "#08306b", "#08306b", "#deebf7"
+		    "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2271b5", "#09519c", "#08306b", "#08306b", "#deebf7" //blues
 		  ]);
-		  // let colorScale = d3.scaleOrdinal.schemeYlGnBu[9];
+		  
 		  let xScale = d3.scaleLinear().range([0, 2 * Math.PI]);
 		  let rScale = d3.scaleLinear().range([0.4 * radius, radius]);
 
@@ -54,7 +54,7 @@ class Sunburst{
 		      if(d.depth == 0) return "lightgray";
 		      return colorScale(d.value);
 		    })
-		    .attr("opacity", 0.8)
+		    .attr("opacity", 1)
 		    .on("click", click)
 		    .append("title")
 		    .text(function(d) { return d.data.tooltip_name; });
