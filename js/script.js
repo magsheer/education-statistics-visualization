@@ -6,7 +6,7 @@ let dropdown_data = ["Adult literacy rate, population 15+ years, both sexes (%)"
 let select = d3.select('#dropdown')
                 .append('select')
                 .attr('class','select')
-                .on('change',onchange);
+                .on('change',onDropdownChange);
 
 let options = select
                 .selectAll('option')
@@ -14,14 +14,52 @@ let options = select
                 .append('option')
                 .text(function (d) { return d; });
 
+function onDropdownChange() {
+    // let selectValue = d3.select('select').property('value');
+    // console.log(selectValue);s
+    // d3.select("#worldmap").select("svg").remove();
+    // let newMapObject = new Map();
+    // d3.select('body')
+    //     .append('p')
+    //     .text(selectValue + ' is the last selected option.');
+    let year = d3.select("#yearslider").select('input').property('value');
+    mapObject.updateCountryMap(year);
+};
+
+/*-------------------------------------------RADIOBUTTONS-----------------------------------------------*/
+
+let radios = d3.select("#radiobuttons")
+                .on("change",onRadiobuttonChange);
+
+function onRadiobuttonChange(){
+    // let form = document.getElementById("radiobuttons");
+    // let form_val;
+    // for(let i=0; i<form.length; i++){
+    //         if(form[i].checked)
+    //           form_val = form[i].id;
+    //       }
+    // if(form_val == "region_radio"){
+    //     console.log("call regionmap");
+    // }
+    // else{
+    //     let year = d3.select("#yearslider").select('input').property('value');
+    //     mapObject.updateCountryMap(year);
+    // }
+        let year = d3.select("#yearslider").select('input').property('value');
+        mapObject.updateCountryMap(year);
+
+}
 
 
 /*-------------------------------------------INITIAL MAP, CHARTS-----------------------------------------------*/
 
 let mapObject = new Map(allCSVdata);
 d3.json('data/world.json').then(mapData => {
-        mapObject.drawMapCountry(mapData);
+        mapObject.drawInitialMap(mapData);
     });
+
+let sunburstObject = new Sunburst();
+sunburstObject.drawSunburst();
 
 let lineObject = new lineChart(allCSVdata, 'indicator1');
 lineObject.drawPlot();
@@ -50,23 +88,12 @@ function update(year){
 
 /*------------------------------------------WORLD MAP ON CHANGES----------------------------------------------*/
 
-function onchange() {
-    // let selectValue = d3.select('select').property('value');
-    // d3.select("#worldmap").select("svg").remove();
-    // let newMapObject = new Map();
-    // d3.select('body')
-    //     .append('p')
-    //     .text(selectValue + ' is the last selected option.');
-        let year = d3.select("#yearslider").select('input').property('value');
-        mapObject.updateCountryMap(year);
-    // console.log(selectValue);
-};
+
 });
 
 /*---------------------------------------------SUNBURST CHART-------------------------------------------------*/
 
-let sunburstObject = new Sunburst();
-sunburstObject.drawSunburst();
+
 
 /*-----------------------------------------LOAD CSV-------------------------------------------------*/
 async function loadFile(file) {

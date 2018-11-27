@@ -8,7 +8,7 @@ class Map {
         // this.indicatorData = data[csvName];
     }
 
-    drawMapCountry(world) {
+    drawInitialMap(world) {
         let that = this;
 
         //find out the indicator selected
@@ -44,7 +44,14 @@ class Map {
             .append("path")
             .attr("d",path)
             .attr("id",function(d){return d.id})
-            // .attr("class","countries");
+            .attr("class",function(d){
+                if(that.nameArray.includes(d.id)){
+                    let index = that.nameArray.indexOf(d.id);
+                    let toReturn = indicatorData[index]["Region_Code"];
+                    return toReturn;
+                }
+            })
+
             .attr("fill",function(d){
                 if(that.nameArray.includes(d.id)){
                     let index = that.nameArray.indexOf(d.id);
@@ -86,24 +93,80 @@ class Map {
         let indicatorSelected = this.findIndicator();
         let indicatorData = this.data[indicatorSelected];
 
-       let color = d3.scaleQuantize()
+        let color = d3.scaleQuantize()
                 .domain([1, 100])
                 .range(d3.schemeYlGnBu[9]);
 
-        let allPaths = d3.select("#worldmap").selectAll("path")
-            .attr("fill",function(d){
-                if(that.nameArray.includes(d.id)){
-                    let index = that.nameArray.indexOf(d.id);
-                    if(indicatorData[index][yr_csv]!="")
-                        return color(parseFloat(indicatorData[index][yr_csv]));
+        let form = document.getElementById("radiobuttons");
+        let form_val;
+        for(let i=0; i<form.length; i++){
+            if(form[i].checked)
+              form_val = form[i].id;
+          }
+
+        if(form_val == "region_radio"){
+            let allPaths = d3.select("#worldmap").selectAll("path")
+                .attr("fill",function(d){
+                    if(that.nameArray.includes(d.id)){
+                        let index = that.nameArray.indexOf(d.id);
+                        let region_code = indicatorData[index]["Region_Code"];
+                        if(region_code=="")
+                            return "#bababa";
+                        let r_index = that.nameArray.indexOf(region_code);
+                        console.log(r_index,region_code,index,d.id);
+                        if(indicatorData[r_index][yr_csv]!=""){
+                            return color(parseFloat(indicatorData[r_index][yr_csv]));
+                        }
+                        else
+                            return "#bababa";
+                    }
                     else
                         return "#bababa";
-                }
-                else
-                    return "#bababa";
-            });
+                });
+
+        }
+
+        else{
+            let allPaths = d3.select("#worldmap").selectAll("path")
+                .attr("fill",function(d){
+                    if(that.nameArray.includes(d.id)){
+                        let index = that.nameArray.indexOf(d.id);
+                        if(indicatorData[index][yr_csv]!="")
+                            return color(parseFloat(indicatorData[index][yr_csv]));
+                        else
+                            return "#bababa";
+                    }
+                    else
+                        return "#bababa";
+                });
+        }
 
     }
+
+    // updateRegionMap(year){
+    //     let that = this;
+    //     let yr_csv = "yr_"+year;
+
+    //     let indicatorSelected = this.findIndicator();
+    //     let indicatorData = this.data[indicatorSelected];
+
+    //    let color = d3.scaleQuantize()
+    //             .domain([1, 100])
+    //             .range(d3.schemeYlGnBu[9]);
+
+    //     let allPaths = d3.select("#worldmap").selectAll("path")
+    //         .attr("fill",function(d){
+    //             if(that.nameArray.includes(d.id)){
+    //                 let index = that.nameArray.indexOf(d.id);
+    //                 if(indicatorData[index][yr_csv]!="")
+    //                     return color(parseFloat(indicatorData[index][yr_csv]));
+    //                 else
+    //                     return "#bababa";
+    //             }
+    //             else
+    //                 return "#bababa";
+    //         });
+    // }
 
     findIndicator(){
         let selectValue = d3.select('select').property('value');
