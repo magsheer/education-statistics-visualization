@@ -46,8 +46,6 @@ class Map {
             .append("path")
             .attr("d",path)
             .attr("id",function(d){return d.id})
-            // .on("mouseover", this.handleMouseOver)
-            // .on("mouseout", this.handleMouseOut)
             .on("click", this.handleClick)
             .attr("class",function(d){
                 if(that.nameArray.includes(d.id)){
@@ -170,22 +168,12 @@ class Map {
         return "yr_"+year;
     }
 
-    handleMouseOver(){
-        d3.select(this)
-            .classed("hovered",true);
-    }
-
-    handleMouseOut(){
-        d3.select(this)
-            .classed("hovered",false);
-    }
-
     handleClick(){
-      d3.selectAll(".clicked").classed("clicked",false);
+    d3.selectAll(".clicked").classed("clicked",false);
 
-      let color = document.getElementById(d3.select(this).property('id')).getAttribute("fill");
+    let color = document.getElementById(d3.select(this).property('id')).getAttribute("fill");
 
-              //check for country or region
+    //check for country or region
     let form = document.getElementById("radiobuttons");
     let form_val;
     for(let i=0; i<form.length; i++){
