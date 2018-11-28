@@ -6,7 +6,7 @@ let dropdown_data = ["Adult literacy rate, population 15+ years, both sexes (%)"
 let select = d3.select('#dropdown')
                 .append('select')
                 .attr('class','select')
-                .on('change',onDropdownChange);
+                .on('change',updateViews);
 
 let options = select
                 .selectAll('option')
@@ -14,35 +14,35 @@ let options = select
                 .append('option')
                 .text(function (d) { return d; });
 
-function onDropdownChange() {
-    // d3.select('body')
-    //     .append('p')
-    //     .text(selectValue + ' is the last selected option.');
-    let year = d3.select("#yearslider").select('input').property('value');
-    mapObject.updateMap(year);
-};
+// function onDropdownChange() {
+//     // d3.select('body')
+//     //     .append('p')
+//     //     .text(selectValue + ' is the last selected option.');
+//     let year = d3.select("#yearslider").select('input').property('value');
+//     mapObject.updateMap(year);
+// };
 
 /*-------------------------------------------RADIOBUTTONS-----------------------------------------------*/
 
 let radios = d3.select("#radiobuttons")
-                .on("change",onRadiobuttonChange);
+                .on("change",updateViews);
 
-function onRadiobuttonChange(){
+// function onRadiobuttonChange(){
     
-        let year = d3.select("#yearslider").select('input').property('value');
-        mapObject.updateMap(year);
+//         let year = d3.select("#yearslider").select('input').property('value');
+//         mapObject.updateMap(year);
 
-}
+// }
 
 
 /*-------------------------------------------INITIAL MAP, CHARTS-----------------------------------------------*/
 
-let mapObject = new Map(allCSVdata);
+let mapObject = new Map(allCSVdata, updateViews);
 d3.json('data/world.json').then(mapData => {
         mapObject.drawInitialMap(mapData);
     });
 
-let sunburstObject = new Sunburst();
+let sunburstObject = new Sunburst(mapObject, updateViews);
 sunburstObject.drawSunburst();
 
 let lineObject = new lineChart(allCSVdata, 'indicator1');
@@ -60,19 +60,24 @@ let slider = d3.select("#yearslider")
             .property("value",2016)
             .on("input", function() {
                 var year = this.value;
-                update(year);
+                updateSlider(year);
             });
 
-function update(year){
+function updateSlider(year){
         slider.property("value", year);
         d3.select("#year").text(year);
         mapObject.updateMap(year);
     }
 
+
+function updateViews(){
+    let year = d3.select("#yearslider").select('input').property('value');
+    mapObject.updateMap(year);
+}
+
 });
 
 /*---------------------------------------------SUNBURST CHART-------------------------------------------------*/
-
 
 
 /*-----------------------------------------LOAD CSV-------------------------------------------------*/

@@ -1,11 +1,13 @@
 class Sunburst{
 
-	constructor(){
-
+	constructor(mapObject, updateViews){
+    this.updateViews = updateViews;
+    this.mapObject = mapObject;
 	}
 
 	drawSunburst(){
 
+      let that = this;
 		  //all dimensions
 		  let width = 600;
 		  let height = 400;
@@ -47,6 +49,8 @@ class Sunburst{
 		    .data(root.descendants())
 		    .enter()
 		    .append("path")
+        .attr("id", function(d){return d.data.name})
+        .attr("class","sunburst_nodes")
 		    .attr("d", arc)
 		    .attr('stroke', '#fff')
 		    .attr("fill", function(d) {
@@ -72,6 +76,7 @@ class Sunburst{
 		    .text(function(d) { return d.data.name; })
 		    .style('font-size','8px');
 
+      
 		
 		  function click(d) {
 		    let tween = g.transition()
@@ -109,6 +114,11 @@ class Sunburst{
 		          return(xScale(d.x0) < 2 * Math.PI) && (xScale(d.x1) > 0.0) && (rScale(d.y1) > 0.0) ? "10px" : 1e-6;
 		        };
 		      });
+            if(event.bubbles){
+            var e = document.createEvent('UIEvents');
+            e.initUIEvent('click', false, true, /* ... */);
+            d3.selectAll("#worldmap").select("#"+d3.select(this).property('id')).node().dispatchEvent(e);
+        } 
 		  }
 
 	}

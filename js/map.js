@@ -2,10 +2,10 @@
 
 class Map {
 
-    constructor(data) {
+    constructor(data, updateViews) {
         this.data=data;
         this.nameArray = data["indicator1"].map(d => d.Country_Code);
-        // this.indicatorData = data[csvName];
+        this.updateViews = updateViews;
     }
 
     drawInitialMap(world) {
@@ -168,7 +168,8 @@ class Map {
         return "yr_"+year;
     }
 
-    handleClick(){
+    handleClick(d){
+
     d3.selectAll(".clicked").classed("clicked",false);
 
     let color = document.getElementById(d3.select(this).property('id')).getAttribute("fill");
@@ -194,5 +195,14 @@ class Map {
                 .classed("clicked",true);
         }
         }
+
+        if(color != "#bababa"){
+            if(event.bubbles){
+                var e = document.createEvent('UIEvents');
+                e.initUIEvent('click', false, true, /* ... */);
+                d3.selectAll("#sunburst").select("#"+d3.select(this).property('id')).node().dispatchEvent(e);
+            }    
+        }
+        //d3.selectAll("#sunburst").select("#"+d3.select(this).property('id')).on("click")();
     }
 }
