@@ -1,11 +1,13 @@
-
+function getLineObject(){
+    return
+}
 
 class Map {
 
-    constructor(data, updateViews) {
+    constructor(data,lineObject) {
         this.data=data;
+        this.lineObject = lineObject;
         this.nameArray = data["indicator1"].map(d => d.Country_Code);
-        this.updateViews = updateViews;
     }
 
     drawInitialMap(world) {
@@ -46,7 +48,10 @@ class Map {
             .append("path")
             .attr("d",path)
             .attr("id",function(d){return d.id})
-            .on("click", this.handleClick)
+            .on("click", function(d){
+                let this_ = this;
+                that.handleClick(d,that);
+            })
             .attr("class",function(d){
                 if(that.nameArray.includes(d.id)){
                     let index = that.nameArray.indexOf(d.id);
@@ -120,7 +125,7 @@ class Map {
                         if(region_code=="")
                             return "#bababa";
                         let r_index = that.nameArray.indexOf(region_code);
-                        console.log(r_index,region_code,index,d.id);
+                        // console.log(r_index,region_code,index,d.id);
                         if(indicatorData[r_index][yr_csv]!=""){
                             return color(parseFloat(indicatorData[r_index][yr_csv]));
                         }
@@ -168,11 +173,12 @@ class Map {
         return "yr_"+year;
     }
 
-    handleClick(d){
+    handleClick(d,that){
+    let line = that.lineObject;
 
     d3.selectAll(".clicked").classed("clicked",false);
 
-    let color = document.getElementById(d3.select(this).property('id')).getAttribute("fill");
+    let color = document.getElementById(d3.select(d).property('id')).getAttribute("fill");
 
     //check for country or region
     let form = document.getElementById("radiobuttons");
@@ -185,14 +191,16 @@ class Map {
 
       if(color != "#bababa"){
         if(form_val=="region_radio"){
-            let class_clicked = "." + document.getElementById(d3.select(this).property('id')).getAttribute("class");
-            d3.selectAll(class_clicked)
+            let class_clicked =  document.getElementById(d3.select(d).property('id')).getAttribute("class");
+            d3.selectAll("." +class_clicked)
                 .classed("clicked",true);
+            line.drawPlot(class_clicked);
 
         }
         else{
-            d3.select(this)
+            d3.select(d.id)
                 .classed("clicked",true);
+            line.drawPlot(d3.select(d).property('id'));
         }
         }
 
@@ -200,7 +208,7 @@ class Map {
             if(event.bubbles){
                 var e = document.createEvent('UIEvents');
                 e.initUIEvent('click', false, true, /* ... */);
-                d3.selectAll("#sunburst").select("#"+d3.select(this).property('id')).node().dispatchEvent(e);
+                d3.selectAll("#sunburst").select("#"+d3.select(d).property('id')).node().dispatchEvent(e);
             }    
         }
         //d3.selectAll("#sunburst").select("#"+d3.select(this).property('id')).on("click")();

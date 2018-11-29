@@ -1,8 +1,7 @@
 class Sunburst{
 
-	constructor(mapObject, updateViews){
-    this.updateViews = updateViews;
-    this.mapObject = mapObject;
+	constructor(){
+      // this.mapObject = mapObject;
 	}
 
 	drawSunburst(){
@@ -24,7 +23,9 @@ class Sunburst{
 		  //coloscale
 		  let colorScale = d3.scaleOrdinal().range([
 		    // "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"
-		    "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2271b5", "#09519c", "#08306b", "#08306b", "#deebf7" //blues
+		    // "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2271b5", "#09519c", "#08306b", "#08306b", "#deebf7" //blues
+        // "#f7fcb9","#d9f0a3","#addd8e","#78c679","#41ab5d","#238443","#006837"//green opdacity - 0.7
+        "#fbb4ae","#b3cde3","#ccebc5","#decbe4","#fed9a6","#ffffcc","#e5d8bd"
 		  ]);
 		  
 		  let xScale = d3.scaleLinear().range([0, 2 * Math.PI]);
@@ -116,6 +117,7 @@ class Sunburst{
 		      });
           let regions = ['NAC','SAS','EAS','LCN','SSF','ECS','MEA'];
           let class_id = d3.select(this).property('id');
+          if(class_id != "WORLD"){
           if(regions.includes(class_id)){
             document.getElementById("region_radio").click();            
           }
@@ -123,9 +125,8 @@ class Sunburst{
             document.getElementById("country_radio").click();
           }
 
-            if(event.bubbles){             
-
-              if(regions.includes(class_id)){
+            if(event.bubbles){          
+                if(regions.includes(class_id)){
                 let e = document.createEvent('UIEvents');
                 e.initUIEvent('click', false, true, /* ... */);
                 d3.selectAll("#worldmap").select("."+d3.select(this).property('id')).node().dispatchEvent(e);
@@ -135,6 +136,7 @@ class Sunburst{
               e.initUIEvent('click', false, true, /* ... */);
               d3.selectAll("#worldmap").select("#"+d3.select(this).property('id')).node().dispatchEvent(e);
               }
+        }
         } 
 		  }
 

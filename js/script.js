@@ -33,20 +33,32 @@ let radios = d3.select("#radiobuttons")
 //         mapObject.updateMap(year);
 
 // }
+/*---------------------------------------------CHECKBOX-----------------------------------------------------*/
+d3.select("#compare_world").on("change",function(){
+    let opacity = d3.select("#world_line").style("opacity");
+    let newOpacity = (opacity==1) ? 0 : 1;
+        // Hide or show the elements
+        d3.select("#world_line").style("opacity", newOpacity);
+        
+});
+
 
 
 /*-------------------------------------------INITIAL MAP, CHARTS-----------------------------------------------*/
 
-let mapObject = new Map(allCSVdata, updateViews);
+let lineObject = new lineChart(allCSVdata);
+lineObject.drawPlot("WLD");
+
+let mapObject = new Map(allCSVdata,lineObject);
 d3.json('data/world.json').then(mapData => {
         mapObject.drawInitialMap(mapData);
     });
 
-let sunburstObject = new Sunburst(mapObject, updateViews);
+let sunburstObject = new Sunburst();
 sunburstObject.drawSunburst();
 
-let lineObject = new lineChart(allCSVdata, 'indicator1');
-lineObject.drawPlot();
+
+
 
 
 /*-------------------------------------------YEAR SLIDER-----------------------------------------------*/
@@ -73,11 +85,12 @@ function updateSlider(year){
 function updateViews(){
     let year = d3.select("#yearslider").select('input').property('value');
     mapObject.updateMap(year);
+    lineObject.drawPlot();
 }
 
 });
 
-/*---------------------------------------------SUNBURST CHART-------------------------------------------------*/
+/*---------------------------------------------LINE CHART-------------------------------------------------*/
 
 
 /*-----------------------------------------LOAD CSV-------------------------------------------------*/
