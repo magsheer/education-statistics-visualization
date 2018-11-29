@@ -114,10 +114,27 @@ class Sunburst{
 		          return(xScale(d.x0) < 2 * Math.PI) && (xScale(d.x1) > 0.0) && (rScale(d.y1) > 0.0) ? "10px" : 1e-6;
 		        };
 		      });
-            if(event.bubbles){
-            var e = document.createEvent('UIEvents');
-            e.initUIEvent('click', false, true, /* ... */);
-            d3.selectAll("#worldmap").select("#"+d3.select(this).property('id')).node().dispatchEvent(e);
+          let regions = ['NAC','SAS','EAS','LCN','SSF','ECS','MEA'];
+          let class_id = d3.select(this).property('id');
+          if(regions.includes(class_id)){
+            document.getElementById("region_radio").click();            
+          }
+          else{
+            document.getElementById("country_radio").click();
+          }
+
+            if(event.bubbles){             
+
+              if(regions.includes(class_id)){
+                let e = document.createEvent('UIEvents');
+                e.initUIEvent('click', false, true, /* ... */);
+                d3.selectAll("#worldmap").select("."+d3.select(this).property('id')).node().dispatchEvent(e);
+              }
+              else{
+              let e = document.createEvent('UIEvents');
+              e.initUIEvent('click', false, true, /* ... */);
+              d3.selectAll("#worldmap").select("#"+d3.select(this).property('id')).node().dispatchEvent(e);
+              }
         } 
 		  }
 
@@ -138,7 +155,7 @@ class Sunburst{
     //   },
     //   { "name": "K", "value": 0.5 }
     // ]}
-     let toReturn = {"name": "WORLD",
+     let toReturn = {"name": "WORLD", "tooltip_name":"World",
     "children": [
       { "name": "EAS", "tooltip_name":"East Asia & Pacific", 
         "children": [{"tooltip_name":"American Samoa","name":"ASM","value": 0.5},{"tooltip_name":"Australia","name":"AUS","value": 0.5},{"tooltip_name":"Brunei Darussalam","name":"BRN","value": 0.5},{"tooltip_name":"China","name":"CHN","value": 0.5},{"tooltip_name":"Fiji","name":"FJI","value": 0.5},{"tooltip_name":"Micronesia, Fed. Sts.","name":"FSM","value": 0.5},{"tooltip_name":"Guam","name":"GUM","value": 0.5},{"tooltip_name":"Hong Kong SAR, China","name":"HKG","value": 0.5},{"tooltip_name":"Indonesia","name":"IDN","value": 0.5},{"tooltip_name":"Japan","name":"JPN","value": 0.5},{"tooltip_name":"Cambodia","name":"KHM","value": 0.5},{"tooltip_name":"Kiribati","name":"KIR","value": 0.5},{"tooltip_name":"Korea, Rep.","name":"KOR","value": 0.5},{"tooltip_name":"Lao PDR","name":"LAO","value": 0.5},{"tooltip_name":"Macao SAR, China","name":"MAC","value": 0.5},{"tooltip_name":"Marshall Islands","name":"MHL","value": 0.5},{"tooltip_name":"Myanmar","name":"MMR","value": 0.5},{"tooltip_name":"Mongolia","name":"MNG","value": 0.5},{"tooltip_name":"Northern Mariana Islands","name":"MNP","value": 0.5},{"tooltip_name":"Malaysia","name":"MYS","value": 0.5},{"tooltip_name":"New Caledonia","name":"NCL","value": 0.5},{"tooltip_name":"New Zealand","name":"NZL","value": 0.5},{"tooltip_name":"Philippines","name":"PHL","value": 0.5},{"tooltip_name":"Palau","name":"PLW","value": 0.5},{"tooltip_name":"Papua New Guinea","name":"PNG","value": 0.5},{"tooltip_name":"Korea, Dem. People’s Rep.","name":"PRK","value": 0.5},{"tooltip_name":"French Polynesia","name":"PYF","value": 0.5},{"tooltip_name":"Singapore","name":"SGP","value": 0.5},{"tooltip_name":"Solomon Islands","name":"SLB","value": 0.5},{"tooltip_name":"Thailand","name":"THA","value": 0.5},{"tooltip_name":"Timor-Leste","name":"TLS","value": 0.5},{"tooltip_name":"Tonga","name":"TON","value": 0.5},{"tooltip_name":"Tuvalu","name":"TUV","value": 0.5},{"tooltip_name":"Vietnam","name":"VNM","value": 0.5},{"tooltip_name":"Vanuatu","name":"VUT","value": 0.5},{"tooltip_name":"Samoa","name":"WSM","value": 0.5}]
