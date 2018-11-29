@@ -205,10 +205,20 @@ class Map {
         }
 
         if(color != "#bababa"){
+            if(form_val=="region_radio"){
             if(event.bubbles){
                 var e = document.createEvent('UIEvents');
                 e.initUIEvent('click', false, true, /* ... */);
-                d3.selectAll("#sunburst").select("#"+d3.select(d).property('id')).node().dispatchEvent(e);
+                let class_clicked =  document.getElementById(d3.select(d).property('id')).getAttribute("class").split(" ");
+                d3.selectAll("#sunburst").select("#"+class_clicked[0]).node().dispatchEvent(e);
+            }}
+            else{
+                if(event.bubbles){
+                var e = document.createEvent('UIEvents');
+                e.initUIEvent('click', false, true, /* ... */);
+                let id = "#"+d3.select(d.id);
+                d3.selectAll("#sunburst").select(id).node().dispatchEvent(e);
+                }
             }    
         }
         //d3.selectAll("#sunburst").select("#"+d3.select(this).property('id')).on("click")();

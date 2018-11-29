@@ -85,7 +85,7 @@ function updateSlider(year){
 function updateViews(){
     let year = d3.select("#yearslider").select('input').property('value');
     mapObject.updateMap(year);
-    lineObject.drawPlot();
+    // lineObject.drawPlot();
 }
 
 });
