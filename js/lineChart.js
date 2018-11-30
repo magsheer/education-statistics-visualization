@@ -119,6 +119,7 @@ class lineChart{
 		bars.enter()
 			.append("rect")
 			.attr("class",country_region)
+			.attr("id","rectg")
 			.style("fill","#1b9e77")
 			.attr("x",function(d){return d[0]-47;})
             .attr("y",function(d){return d[1]-40;})

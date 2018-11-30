@@ -20,7 +20,10 @@ function onDropdownChange() {
     //     .text(selectValue + ' is the last selected option.');
     let year = d3.select("#yearslider").select('input').property('value');
     mapObject.updateMap(year);
-    let current_selection = d3.select("#rectg").property("class");
+
+    let current_selection = document.getElementById("rectg").getAttribute("class");
+    lineObject.drawPlot(current_selection);
+
 };
 
 /*-------------------------------------------RADIOBUTTONS-----------------------------------------------*/
@@ -59,8 +62,8 @@ d3.json('data/world.json').then(mapData => {
 let sunburstObject = new Sunburst();
 sunburstObject.drawSunburst();
 
-
-
+let heatmapObject = new heatmap(allCSVdata);
+heatmapObject.plotheat_country();
 
 
 /*-------------------------------------------YEAR SLIDER-----------------------------------------------*/
