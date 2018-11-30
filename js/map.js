@@ -268,6 +268,7 @@ class Map {
             d3.selectAll("." +class_clicked)
                 .classed("clicked",true);
             line.drawPlot(class_clicked);
+            infobox.updateInfo(class_clicked);
 
         }
         else{
@@ -280,6 +281,10 @@ class Map {
         else{
             if(form_val=="country_radio")
             infobox.updateInfo(d3.select(d).property('id'));
+            else{
+            let class_clicked =  document.getElementById(d3.select(d).property('id')).getAttribute("class");
+            infobox.updateInfo(class_clicked);
+            }
         }
 
         if(color != "#bababa"){
