@@ -8,6 +8,7 @@ class Map {
         this.data=data;
         this.lineObject = lineObject;
         this.nameArray = data["indicator1"].map(d => d.Country_Code);
+        this.tooltip = d3.select("#worldmap").append("div").attr("class", "tooltip");
     }
 
     drawInitialMap(world) {
@@ -16,7 +17,7 @@ class Map {
         //find out the indicator selected
         let indicatorSelected = this.findIndicator();
         let indicatorData = this.data[indicatorSelected];
-        var tooltip = d3.select("#worldmap").append("div").attr("class", "tooltip");
+        
 
         //find the year on year slider
         let year = this.findyear();
@@ -62,28 +63,27 @@ class Map {
                 }
             })
             .on("mouseover",function(d){
-                
-                    // let r = indicatorData[that.nameArray.indexOf(d.id)]["Region_Code"];
-                    // let region_name = indicatorData[that.nameArray.indexOf("Region_Code")]["Country_Name"];
-                    // let region_year_val = indicatorData[that.nameArray.indexOf(d.id)][year];
+                let this_ = that;
+                let r = indicatorData[that.nameArray.indexOf(d.id)]["Region_Code"];
+                let region_name = indicatorData[that.nameArray.indexOf(r)]["Country_Name"];
+                let region_year_val = indicatorData[that.nameArray.indexOf(r)][year];
                 
                 let country_name = indicatorData[that.nameArray.indexOf(d.id)]["Country_Name"];
                 let year_val = indicatorData[that.nameArray.indexOf(d.id)][year];
-                if(year_val != "")
-                tooltip
+                // if(year_val != "")
+                this_.tooltip
                 .style("visibility","visible")
-                .html(country_name+":"+parseFloat(indicatorData[that.nameArray.indexOf(d.id)][year]).toFixed(2));
-                else
-                tooltip
-                .style("visibility","visible")
-                .html(country_name+"</br>"+"Data not available");
+                .html("Country: "+
+                        this_.tooltip_render(country_name,year_val)+"</br>"+"Region: "+this_.tooltip_render(region_name,region_year_val));
 
             })
             .on("mouseout", function(d) {
-                tooltip.style("visibility", "hidden");
+                let this_ = that;
+                this_.tooltip.style("visibility", "hidden");
             })
             .on("mousemove", function(d) {
-                tooltip
+                let this_ = that;
+                this_.tooltip
                 .style("top", (d3.event.pageY - 20) + "px")
                 .style("left", (d3.event.pageX + 10) + "px");
             })
@@ -145,6 +145,31 @@ class Map {
         //retrive region data and fill 
         if(form_val == "region_radio"){
             let allPaths = d3.select("#worldmap").selectAll("path")
+                    .on("mouseover",function(d){
+                    let this_ = that;
+                    let r = indicatorData[that.nameArray.indexOf(d.id)]["Region_Code"];
+                    let region_name = indicatorData[that.nameArray.indexOf(r)]["Country_Name"];
+                    let region_year_val = indicatorData[that.nameArray.indexOf(r)]["yr_"+year];
+                    
+                    let country_name = indicatorData[that.nameArray.indexOf(d.id)]["Country_Name"];
+                    let year_val = indicatorData[that.nameArray.indexOf(d.id)]["yr_"+year];
+                    // if(year_val != "")
+                    this_.tooltip
+                    .style("visibility","visible")
+                    .html("Country: "+
+                            this_.tooltip_render(country_name,year_val)+"</br>"+"Region: "+this_.tooltip_render(region_name,region_year_val));
+
+                })
+                .on("mouseout", function(d) {
+                    let this_ = that;
+                    this_.tooltip.style("visibility", "hidden");
+                })
+                .on("mousemove", function(d) {
+                    let this_ = that;
+                    this_.tooltip
+                    .style("top", (d3.event.pageY - 20) + "px")
+                    .style("left", (d3.event.pageX + 10) + "px");
+                })
                 .attr("fill",function(d){
                     if(that.nameArray.includes(d.id)){
                         let index = that.nameArray.indexOf(d.id);
@@ -208,6 +233,14 @@ class Map {
               form_val = form[i].id;
           }
           return form_val;
+    }
+
+    tooltip_render(name,value){
+        let text = "";
+        if(value!="")
+        return name+"</br>"+parseFloat(value).toFixed(2);
+        else
+        return name+"</br>Data missing"
     }
 
     handleClick(d,that){
