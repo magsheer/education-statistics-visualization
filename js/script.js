@@ -6,7 +6,7 @@ let dropdown_data = ["Adult literacy rate, population 15+ years, both sexes (%)"
 let select = d3.select('#dropdown')
                 .append('select')
                 .attr('class','select')
-                .on('change',updateViews);
+                .on('change',onDropdownChange);
 
 let options = select
                 .selectAll('option')
@@ -14,31 +14,33 @@ let options = select
                 .append('option')
                 .text(function (d) { return d; });
 
-// function onDropdownChange() {
-//     // d3.select('body')
-//     //     .append('p')
-//     //     .text(selectValue + ' is the last selected option.');
-//     let year = d3.select("#yearslider").select('input').property('value');
-//     mapObject.updateMap(year);
-// };
+function onDropdownChange() {
+    // d3.select('body')
+    //     .append('p')
+    //     .text(selectValue + ' is the last selected option.');
+    let year = d3.select("#yearslider").select('input').property('value');
+    mapObject.updateMap(year);
+    let current_selection = d3.select("#rectg").property("class");
+};
 
 /*-------------------------------------------RADIOBUTTONS-----------------------------------------------*/
 
 let radios = d3.select("#radiobuttons")
-                .on("change",updateViews);
+                .on("change",onRadiobuttonChange);
 
-// function onRadiobuttonChange(){
+function onRadiobuttonChange(){
     
-//         let year = d3.select("#yearslider").select('input').property('value');
-//         mapObject.updateMap(year);
+        let year = d3.select("#yearslider").select('input').property('value');
+        mapObject.updateMap(year);
 
-// }
+}
 /*---------------------------------------------CHECKBOX-----------------------------------------------------*/
 d3.select("#compare_world").on("change",function(){
     let opacity = d3.select("#world_line").style("opacity");
     let newOpacity = (opacity==1) ? 0 : 1;
         // Hide or show the elements
         d3.select("#world_line").style("opacity", newOpacity);
+        d3.selectAll(".dot").style("opacity", newOpacity);
         
 });
 

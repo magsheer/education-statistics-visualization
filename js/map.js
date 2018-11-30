@@ -198,7 +198,7 @@ class Map {
 
         }
         else{
-            d3.select(d.id)
+            d3.select("#"+d.id)
                 .classed("clicked",true);
             line.drawPlot(d3.select(d).property('id'));
         }
@@ -216,7 +216,7 @@ class Map {
                 if(event.bubbles){
                 var e = document.createEvent('UIEvents');
                 e.initUIEvent('click', false, true, /* ... */);
-                let id = "#"+d3.select(d.id);
+                let id = "#"+d.id;
                 d3.selectAll("#sunburst").select(id).node().dispatchEvent(e);
                 }
             }    

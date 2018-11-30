@@ -89,13 +89,13 @@ class lineChart{
 			.enter()		  			
   			.append("circle")
   			.attr("r",3)
-  			.style("fill","steelblue")
+  			.attr("class","dot")
   			.attr("cx",function(d){return d[0]})
   			.attr("cy",function(d){return d[1]})
   			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   	// ************************************************BAR CHART***************************************************
-		let g = svg.append('g').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		let g = svg.append('g').attr("id","rectg").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 		index = this.nameArray.indexOf(country_region);
 		country_data = indicatorData[index];
@@ -118,6 +118,7 @@ class lineChart{
 
 		bars.enter()
 			.append("rect")
+			.attr("class",country_region)
 			.style("fill","#1b9e77")
 			.attr("x",function(d){return d[0]-47;})
             .attr("y",function(d){return d[1]-40;})

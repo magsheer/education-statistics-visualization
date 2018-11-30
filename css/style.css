@@ -104,13 +104,13 @@ path.clicked{
 
 .line {
   fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
+  stroke: #cb181d;
+  stroke-width: 3px;
 }
 
 .dot {
-  fill: white;
-  stroke: steelblue;
+  fill:#cb181d;
+  stroke: #cb181d;
   stroke-width: 1.5px;
 }
 
