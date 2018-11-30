@@ -6,10 +6,13 @@ class lineChart{
 	}
 
 	drawPlot(country_region){
+		let that = this;
 
 		//find out the indicator selected
         let indicatorSelected = this.findIndicator();
         let indicatorData = this.data[indicatorSelected];
+
+        var tooltip = d3.select("#linechart").append("div").attr("class", "tooltip");
 
 		let margin = {top: 40, right: 40, bottom: 40, left: 40},
 		    width = 1250 - margin.left - margin.right,
@@ -95,7 +98,7 @@ class lineChart{
   			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   	// ************************************************BAR CHART***************************************************
-		let g = svg.append('g').attr("id","rectg").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		let g = svg.append('g').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 		index = this.nameArray.indexOf(country_region);
 		country_data = indicatorData[index];
@@ -110,6 +113,8 @@ class lineChart{
 				plotDataItem.push(0);
 			else
 				plotDataItem.push(y(parseFloat(value)));
+			plotDataItem.push(i);
+			plotDataItem.push(parseFloat(value).toFixed(2));
 			plotData.push(plotDataItem)
 		}
 
@@ -121,6 +126,22 @@ class lineChart{
 			.attr("class",country_region)
 			.attr("id","rectg")
 			.style("fill","#1b9e77")
+			.on("mouseover",function(d){
+                let x = indicatorData[that.nameArray.indexOf(country_region)]["Country_Name"];
+                let y = d[2];
+                let z = d[3];
+                tooltip
+                .style("visibility","visible")
+                .html(x+"</br>"+y+"</br>"+d[3]);
+            })
+            .on("mouseout", function(d) {
+                tooltip.style("visibility", "hidden");
+            })
+            .on("mousemove", function(d) {
+                tooltip
+                .style("top", (d3.event.pageY - 20) + "px")
+                .style("left", (d3.event.pageX + 10) + "px");
+            })
 			.attr("x",function(d){return d[0]-47;})
             .attr("y",function(d){return d[1]-40;})
 			.attr("width",14)

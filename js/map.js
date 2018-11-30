@@ -1,6 +1,6 @@
-function getLineObject(){
-    return
-}
+// function getLineObject(){
+//     return
+// }
 
 class Map {
 
@@ -16,9 +16,11 @@ class Map {
         //find out the indicator selected
         let indicatorSelected = this.findIndicator();
         let indicatorData = this.data[indicatorSelected];
+        var tooltip = d3.select("#worldmap").append("div").attr("class", "tooltip");
 
         //find the year on year slider
         let year = this.findyear();
+        let current_radio = this.findregionorcountry();
 
         let color = d3.scaleQuantize()
                     .domain([1, 100])
@@ -59,7 +61,32 @@ class Map {
                     return toReturn;
                 }
             })
+            .on("mouseover",function(d){
+                
+                    // let r = indicatorData[that.nameArray.indexOf(d.id)]["Region_Code"];
+                    // let region_name = indicatorData[that.nameArray.indexOf("Region_Code")]["Country_Name"];
+                    // let region_year_val = indicatorData[that.nameArray.indexOf(d.id)][year];
+                
+                let country_name = indicatorData[that.nameArray.indexOf(d.id)]["Country_Name"];
+                let year_val = indicatorData[that.nameArray.indexOf(d.id)][year];
+                if(year_val != "")
+                tooltip
+                .style("visibility","visible")
+                .html(country_name+":"+parseFloat(indicatorData[that.nameArray.indexOf(d.id)][year]).toFixed(2));
+                else
+                tooltip
+                .style("visibility","visible")
+                .html(country_name+"</br>"+"Data not available");
 
+            })
+            .on("mouseout", function(d) {
+                tooltip.style("visibility", "hidden");
+            })
+            .on("mousemove", function(d) {
+                tooltip
+                .style("top", (d3.event.pageY - 20) + "px")
+                .style("left", (d3.event.pageX + 10) + "px");
+            })
             .attr("fill",function(d){
                 if(that.nameArray.includes(d.id)){
                     let index = that.nameArray.indexOf(d.id);
@@ -171,6 +198,16 @@ class Map {
     findyear(){
         let year = d3.select("#yearslider").select('input').property('value');
         return "yr_"+year;
+    }
+
+    findregionorcountry(){
+               let form = document.getElementById("radiobuttons");
+        let form_val;
+        for(let i=0; i<form.length; i++){
+            if(form[i].checked)
+              form_val = form[i].id;
+          }
+          return form_val;
     }
 
     handleClick(d,that){

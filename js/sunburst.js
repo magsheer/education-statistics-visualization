@@ -15,6 +15,7 @@ class Sunburst{
 		  let backCircleRadius = 0.1 * radius;
 
 		  let data = this.jsonData();
+      var tooltip = d3.select("#worldmap").append("div").attr("class", "tooltip");
 
 		  //svg
 		  let svg = d3.select("#sunburst").append("svg").attr("width", width).attr("height", height);
@@ -61,8 +62,21 @@ class Sunburst{
 		    })
 		    .attr("opacity", 1)
 		    .on("click", click)
-		    .append("title")
-		    .text(function(d) { return d.data.tooltip_name; });
+		    // .append("title")
+		    // .text(function(d) { return d.data.tooltip_name; })
+        .on("mouseover",function(d){
+                tooltip
+                .style("visibility","visible")
+                .html(d.data.tooltip_name);                
+            })
+            .on("mouseout", function(d) {
+                tooltip.style("visibility", "hidden");
+            })
+            .on("mousemove", function(d) {
+                tooltip
+                .style("top", (d3.event.pageY - 20) + "px")
+                .style("left", (d3.event.pageX + 10) + "px");
+            });
 
 		  g.selectAll("text")
 		    .data(root.descendants())

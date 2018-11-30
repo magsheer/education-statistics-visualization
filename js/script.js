@@ -20,10 +20,8 @@ function onDropdownChange() {
     //     .text(selectValue + ' is the last selected option.');
     let year = d3.select("#yearslider").select('input').property('value');
     mapObject.updateMap(year);
-
     let current_selection = document.getElementById("rectg").getAttribute("class");
     lineObject.drawPlot(current_selection);
-
 };
 
 /*-------------------------------------------RADIOBUTTONS-----------------------------------------------*/
@@ -35,6 +33,7 @@ function onRadiobuttonChange(){
     
         let year = d3.select("#yearslider").select('input').property('value');
         mapObject.updateMap(year);
+        d3.selectAll(".clicked").classed("clicked",false);
 
 }
 /*---------------------------------------------CHECKBOX-----------------------------------------------------*/
