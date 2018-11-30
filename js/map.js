@@ -4,9 +4,10 @@
 
 class Map {
 
-    constructor(data,lineObject) {
+    constructor(data,lineObject,infoboxObject) {
         this.data=data;
         this.lineObject = lineObject;
+        this.infoboxObject = infoboxObject;
         this.nameArray = data["indicator1"].map(d => d.Country_Code);
         this.tooltip = d3.select("#worldmap").append("div").attr("class", "tooltip");
     }
@@ -246,6 +247,7 @@ class Map {
 
     handleClick(d,that){
     let line = that.lineObject;
+    let infobox = that.infoboxObject;
 
     d3.selectAll(".clicked").classed("clicked",false);
 
@@ -272,7 +274,12 @@ class Map {
             d3.select("#"+d.id)
                 .classed("clicked",true);
             line.drawPlot(d3.select(d).property('id'));
+            infobox.updateInfo(d3.select(d).property('id'));
         }
+        }
+        else{
+            if(form_val=="country_radio")
+            infobox.updateInfo(d3.select(d).property('id'));
         }
 
         if(color != "#bababa"){

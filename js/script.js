@@ -53,7 +53,9 @@ d3.select("#compare_world").on("change",function(){
 let lineObject = new lineChart(allCSVdata);
 lineObject.drawPlot("WLD");
 
-let mapObject = new Map(allCSVdata,lineObject);
+let infoboxObject = new infobox(allCSVdata);
+
+let mapObject = new Map(allCSVdata,lineObject,infoboxObject);
 d3.json('data/world.json').then(mapData => {
         mapObject.drawInitialMap(mapData);
     });
@@ -78,6 +80,9 @@ let slider = d3.select("#yearslider")
                 var year = this.value;
                 updateSlider(year);
             });
+
+
+// infoboxObject.updateInfo("IND");
 
 function updateSlider(year){
         slider.property("value", year);
