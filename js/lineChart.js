@@ -132,7 +132,7 @@ class lineChart{
                 let z = d[3];
                 tooltip
                 .style("visibility","visible")
-                .html(x+"</br>"+y+"</br>"+d[3]);
+                .html("Country/Region: "+x+"</br>"+"Year: "+y+"</br>"+d[3]+"%");
             })
             .on("mouseout", function(d) {
                 tooltip.style("visibility", "hidden");

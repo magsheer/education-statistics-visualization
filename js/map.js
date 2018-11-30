@@ -64,12 +64,13 @@ class Map {
             })
             .on("mouseover",function(d){
                 let this_ = that;
+                let year_ = that.findyear();
                 let r = indicatorData[that.nameArray.indexOf(d.id)]["Region_Code"];
                 let region_name = indicatorData[that.nameArray.indexOf(r)]["Country_Name"];
-                let region_year_val = indicatorData[that.nameArray.indexOf(r)][year];
+                let region_year_val = indicatorData[that.nameArray.indexOf(r)][year_];
                 
                 let country_name = indicatorData[that.nameArray.indexOf(d.id)]["Country_Name"];
-                let year_val = indicatorData[that.nameArray.indexOf(d.id)][year];
+                let year_val = indicatorData[that.nameArray.indexOf(d.id)][year_];
                 // if(year_val != "")
                 this_.tooltip
                 .style("visibility","visible")
@@ -238,7 +239,7 @@ class Map {
     tooltip_render(name,value){
         let text = "";
         if(value!="")
-        return name+"</br>"+parseFloat(value).toFixed(2);
+        return name+"</br>"+parseFloat(value).toFixed(2)+"%";
         else
         return name+"</br>Data missing"
     }
