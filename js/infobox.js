@@ -57,6 +57,8 @@ class infobox{
 
 		d3.select("#infobox").append("div").attr("id","checkText").style("visibility","visible");
 		d3.select("#checkText").append("text").text("Region: "+indicatorData[index]["Country_Name"]).attr("dy", "0em");
+		if(indicatorData[index][year]=="")
+			d3.select("#checkText").append("div").append("text").text("Data not available for the selected year");
 		switch(id){
 			case "ECS": 
 					if(indicatorData[index][year]!=""){

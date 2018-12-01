@@ -94,6 +94,7 @@ class Sunburst{
       
 		
 		  function click(d) {
+		  	try{
 		    let tween = g.transition()
 		      .duration(500)
 		      .tween("scale", function() {
@@ -152,6 +153,11 @@ class Sunburst{
               }
         }
         } 
+
+    }//try
+    catch(err){
+    	
+    }
 		  }
 
 	}

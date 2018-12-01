@@ -66,6 +66,7 @@ let sunburstObject = new Sunburst();
 sunburstObject.drawSunburst();
 
 let heatmapObject = new heatmap(allCSVdata);
+// heatmapObject.drawLegend();
 heatmapObject.plotheat_country();
 
 

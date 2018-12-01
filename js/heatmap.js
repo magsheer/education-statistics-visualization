@@ -16,12 +16,45 @@ class heatmap{
       this.plotheat_country();
 
     }
+
+    drawLegend(){
+      let color = d3.scaleQuantize()
+                    .domain([1, 100])
+                    .range(d3.schemeYlGnBu[9]);
+
+            let x = d3.scaleLinear()
+                    .domain(d3.extent(color.domain()))
+                    .rangeRound([650, 900]);
+
+            let format = d3.format("");
+
+            let gg = d3.select("#maplegend").append("svg").attr("id","#leg_svg").attr("width",1200).attr("height",40).append("g")
+                    .attr("transform", "translate(-100,0)");
+
+        gg.selectAll("rect")
+          .data(color.range().map(d => color.invertExtent(d)))
+          .enter()
+          .append("rect")
+          .attr("height", 15)
+          .attr("x", d => x(d[0]))
+          .attr("width", d => x(d[1]) - x(d[0]))
+          .attr("fill", d => color(d[0]));
+
+
+        gg.call(d3.axisBottom(x)
+        .tickSize(13)
+        .tickFormat(format)
+        .tickValues(color.range().slice(1).map(d => color.invertExtent(d)[0])))
+        .select(".domain")
+        .remove();
+    }
   
 
     plotheat_country() {
 
             d3.select("#allcells").remove();
-            var tooltip = d3.select("#linechart").append("div").attr("class", "tooltip");
+            // d3.select("#leg_svg").remove();
+            var tooltip = d3.select("#heatmap").append("div").attr("class", "tooltip");
             let that =this;
 
             //for legend 
@@ -37,13 +70,13 @@ class heatmap{
               year_axes[index2++] = i;
             }
               
-            console.log(years,country_axes,year_axes,country_codes);
+            // console.log(years,country_axes,year_axes,country_codes);
             
             //indicator selected
             let indicatorSelected = this.findIndicator();
             let indicatorData = this.data[indicatorSelected];
 
-            console.log(indicatorData);
+            // console.log(indicatorData);
 
 
             var n = country_codes.length; //row
@@ -60,7 +93,7 @@ class heatmap{
               }
             }
 
-            console.log(matrix);
+            // console.log(matrix);
 
             var width = (20*m)+50; 
             var height = (20*n)+50; 
@@ -92,43 +125,34 @@ class heatmap{
             .append("text")
             .attr("class","countryLabel")
             .text(function(d) { return d; })
+            .on("mouseover",function(d,i){
+  
+                tooltip
+                .style("visibility","visible")
+                .html(country_axes[i]);
+                
+              })
+              .on("mouseout", function(d) {
+                tooltip.style("visibility", "hidden");
+            })
+            .on("mousemove", function(d) {
+                tooltip
+                .style("top", (d3.event.pageY - 20) + "px")
+                .style("left", (d3.event.pageX + 10) + "px");
+            })
             .attr("x", 0)
             .attr("y", function(d, i) { return i * gridSize; })
             .style("text-anchor", "middle")
             .attr("transform","translate(20,70)");
-            // .attr("transform", function(d,i){
-            //   let x = i *gridSize + 20;
-            //   return "rotate(-90,"+ x +",0)";});
 
-            let color = d3.scaleQuantize()
+             let color = d3.scaleQuantize()
                     .domain([1, 100])
                     .range(d3.schemeYlGnBu[9]);
 
-        //     let x = d3.scaleLinear()
-        //             .domain(d3.extent(color.domain()))
-        //             .rangeRound([650, 900]);
 
-        //     let format = d3.format("");
+            
 
-        //     let gg = svg.append("g")
-        //             .attr("transform", "translate(-100,0)");
-
-        // gg.selectAll("rect")
-        //   .data(color.range().map(d => color.invertExtent(d)))
-        //   .enter()
-        //   .append("rect")
-        //   .attr("height", 8)
-        //   .attr("x", d => x(d[0]))
-        //   .attr("width", d => x(d[1]) - x(d[0]))
-        //   .attr("fill", d => color(d[0]));
-
-
-        // gg.call(d3.axisBottom(x)
-        // .tickSize(13)
-        // .tickFormat(format)
-        // .tickValues(color.range().slice(1).map(d => color.invertExtent(d)[0])))
-        // .select(".domain")
-        // .remove();
+        var tooltip = d3.select("#heatmap").append("div").attr("class", "tooltip");
 
             g.selectAll(".row")
               .data(matrix)
@@ -140,6 +164,22 @@ class heatmap{
               .data(function(d) { return d })
               .enter()
               .append("rect")
+              .on("mouseover",function(d,i){
+                if(d!=0){
+                  let x = year_axes[i]+2;
+                tooltip
+                .style("visibility","visible")
+                .html("Year: "+ x+"</br>" +parseFloat(d).toFixed(2)+"%");
+                }
+              })
+              .on("mouseout", function(d) {
+                tooltip.style("visibility", "hidden");
+            })
+            .on("mousemove", function(d) {
+                tooltip
+                .style("top", (d3.event.pageY - 20) + "px")
+                .style("left", (d3.event.pageX + 10) + "px");
+            })
               .attr("class", "cell")
               .attr("x", function(d, i) { return scaleCol(i); })
               .attr("width", scaleCol.bandwidth())
@@ -155,8 +195,10 @@ class heatmap{
 
       plotheat_region() {
 
+
+
             d3.select("#allcells").remove();
-            var tooltip = d3.select("#linechart").append("div").attr("class", "tooltip");
+            // d3.select("#leg_svg").remove();
             let that =this;
 
             //for legend 
@@ -172,13 +214,13 @@ class heatmap{
               year_axes[index2++] = i;
             }
               
-            console.log(years,country_axes,year_axes,country_codes);
+            // console.log(years,country_axes,year_axes,country_codes);
             
             //indicator selected
             let indicatorSelected = this.findIndicator();
             let indicatorData = this.data[indicatorSelected];
 
-            console.log(indicatorData);
+            // console.log(indicatorData);
 
 
             var n = country_codes.length; //row
@@ -195,7 +237,7 @@ class heatmap{
               }
             }
 
-            console.log(matrix);
+            // console.log(matrix);
 
             var width = (20*m)+50; 
             var height = (20*n)+50; 
@@ -207,6 +249,9 @@ class heatmap{
 
             var scaleRow = d3.scaleBand().rangeRound([50, height]).domain(d3.range(n));
             var scaleCol = d3.scaleBand().rangeRound([50, width]).domain(d3.range(m));
+
+            var tooltip = d3.select("#heatmap").append("div").attr("class", "tooltip");
+
 
             var timeLabels = svg.selectAll(".timeLabel")
             .data(year_axes)
@@ -227,6 +272,21 @@ class heatmap{
             .append("text")
             .attr("class","countryLabel")
             .text(function(d) { return d; })
+            .on("mouseover",function(d,i){
+  
+                tooltip
+                .style("visibility","visible")
+                .html(country_axes[i]);
+                
+              })
+              .on("mouseout", function(d) {
+                tooltip.style("visibility", "hidden");
+            })
+            .on("mousemove", function(d) {
+                tooltip
+                .style("top", (d3.event.pageY - 20) + "px")
+                .style("left", (d3.event.pageX + 10) + "px");
+            })
             .attr("x", 0)
             .attr("y", function(d, i) { return i * gridSize; })
             .style("text-anchor", "middle")
@@ -239,31 +299,31 @@ class heatmap{
                     .domain([1, 100])
                     .range(d3.schemeYlGnBu[9]);
 
-        //     let x = d3.scaleLinear()
-        //             .domain(d3.extent(color.domain()))
-        //             .rangeRound([650, 900]);
+   // let x = d3.scaleLinear()
+   //                  .domain(d3.extent(color.domain()))
+   //                  .rangeRound([650, 900]);
 
-        //     let format = d3.format("");
+   //          let format = d3.format("");
 
-        //     let gg = svg.append("g")
-        //             .attr("transform", "translate(-100,0)");
+   //          let gg = d3.select("#maplegend").append("svg").attr("id","#leg_svg").attr("width",1200).attr("height",50).append("g")
+   //                  .attr("transform", "translate(-100,0)");
 
-        // gg.selectAll("rect")
-        //   .data(color.range().map(d => color.invertExtent(d)))
-        //   .enter()
-        //   .append("rect")
-        //   .attr("height", 8)
-        //   .attr("x", d => x(d[0]))
-        //   .attr("width", d => x(d[1]) - x(d[0]))
-        //   .attr("fill", d => color(d[0]));
+   //      gg.selectAll("rect")
+   //        .data(color.range().map(d => color.invertExtent(d)))
+   //        .enter()
+   //        .append("rect")
+   //        .attr("height", 15)
+   //        .attr("x", d => x(d[0]))
+   //        .attr("width", d => x(d[1]) - x(d[0]))
+   //        .attr("fill", d => color(d[0]));
 
 
-        // gg.call(d3.axisBottom(x)
-        // .tickSize(13)
-        // .tickFormat(format)
-        // .tickValues(color.range().slice(1).map(d => color.invertExtent(d)[0])))
-        // .select(".domain")
-        // .remove();
+   //      gg.call(d3.axisBottom(x)
+   //      .tickSize(13)
+   //      .tickFormat(format)
+   //      .tickValues(color.range().slice(1).map(d => color.invertExtent(d)[0])))
+   //      .select(".domain")
+   //      .remove();
 
             g.selectAll(".row")
               .data(matrix)
@@ -272,9 +332,25 @@ class heatmap{
               .attr("class", "row")
               .attr("transform", function(d, i) { return "translate(0," + scaleRow(i) + ")"; })
               .selectAll(".cell")
-              .data(function(d) { return d })
+              .data(function(d) {return d })
               .enter()
               .append("rect")
+              .on("mouseover",function(d,i){
+                if(d!=0){
+                  let x = year_axes[i]+2;
+                tooltip
+                .style("visibility","visible")
+                .html("Year: "+ x+"</br>" +parseFloat(d).toFixed(2)+"%");
+                }
+              })
+              .on("mouseout", function(d) {
+                tooltip.style("visibility", "hidden");
+            })
+            .on("mousemove", function(d) {
+                tooltip
+                .style("top", (d3.event.pageY - 20) + "px")
+                .style("left", (d3.event.pageX + 10) + "px");
+            })
               .attr("class", "cell")
               .attr("x", function(d, i) { return scaleCol(i); })
               .attr("width", scaleCol.bandwidth())

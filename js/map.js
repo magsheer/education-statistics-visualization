@@ -13,6 +13,7 @@ class Map {
     }
 
     drawInitialMap(world) {
+        try{
         let that = this;
 
         //find out the indicator selected
@@ -122,6 +123,8 @@ class Map {
         .tickValues(color.range().slice(1).map(d => color.invertExtent(d)[0])))
         .select(".domain")
         .remove();
+    }//try
+    catch(err){}
     }
 
     updateMap(year){
@@ -246,6 +249,7 @@ class Map {
     }
 
     handleClick(d,that){
+        try{
     let line = that.lineObject;
     let infobox = that.infoboxObject;
 
@@ -262,7 +266,7 @@ class Map {
       }
 
 
-      if(color != "#bababa"){
+      // if(color != "#bababa"){
         if(form_val=="region_radio"){
             let class_clicked =  document.getElementById(d3.select(d).property('id')).getAttribute("class");
             d3.selectAll("." +class_clicked)
@@ -277,15 +281,15 @@ class Map {
             line.drawPlot(d3.select(d).property('id'));
             infobox.updateInfo(d3.select(d).property('id'));
         }
-        }
-        else{
-            if(form_val=="country_radio")
-            infobox.updateInfo(d3.select(d).property('id'));
-            else{
-            let class_clicked =  document.getElementById(d3.select(d).property('id')).getAttribute("class");
-            infobox.updateInfo(class_clicked);
-            }
-        }
+        // }
+        // else{
+        //     if(form_val=="country_radio")
+        //     infobox.updateInfo(d3.select(d).property('id'));
+        //     else{
+        //     let class_clicked =  document.getElementById(d3.select(d).property('id')).getAttribute("class");
+        //     infobox.updateInfo(class_clicked);
+        //     }
+        // }
 
         if(color != "#bababa"){
             if(form_val=="region_radio"){
@@ -305,5 +309,9 @@ class Map {
             }    
         }
         //d3.selectAll("#sunburst").select("#"+d3.select(this).property('id')).on("click")();
+        }//try
+        catch(err){
+
+        }
     }
 }

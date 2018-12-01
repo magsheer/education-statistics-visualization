@@ -68,6 +68,8 @@ class lineChart{
 				plotDataItem.push(null);
 			else
 				plotDataItem.push(y(parseFloat(value)));
+			plotDataItem.push(i);
+			plotDataItem.push(parseFloat(value).toFixed(2));
 			plotData.push(plotDataItem)
 		}
 
@@ -91,6 +93,21 @@ class lineChart{
 			.data(dataForCircles)
 			.enter()		  			
   			.append("circle")
+  			.on("mouseover",function(d){
+                let y = d[2];
+                let z = d[3];
+                tooltip
+                .style("visibility","visible")
+                .html("World"+"</br>"+"Year: "+y+"</br>"+d[3]+"%");
+            })
+            .on("mouseout", function(d) {
+                tooltip.style("visibility", "hidden");
+            })
+            .on("mousemove", function(d) {
+                tooltip
+                .style("top", (d3.event.pageY - 20) + "px")
+                .style("left", (d3.event.pageX + 10) + "px");
+            })
   			.attr("r",3)
   			.attr("class","dot")
   			.attr("cx",function(d){return d[0]})
