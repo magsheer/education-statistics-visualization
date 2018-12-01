@@ -21,6 +21,22 @@
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.8);
     visibility: hidden;
   }
+
+#secondgroup{
+    float:left;
+}
+#infobox{
+    float: left;
+    clear: left;
+    position: relative;
+    margin-left: 50px;
+    border:1px solid black;
+    padding-left: 5px;
+    padding-right: 5px;
+    background: white;
+    /*-webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.8);*/
+    /*box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.8);*/
+}
 /*----------------------------------------NAVIGATION BAR-----------------------------------------*/
  .topnav {
      overflow: hidden;
@@ -108,7 +124,7 @@ path.clicked{
 
 /*-------------------------------------------LINE CHART-----------------------------------------------*/
 .thirdgroup    {
-     margin-top: 20px;
+     margin-top: 500px;
      margin-left: 20px;
 }
 
