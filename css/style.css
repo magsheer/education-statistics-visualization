@@ -8,6 +8,12 @@
     /*background-color: #fff;*/
 }
 
+#heatmap{
+
+    padding-bottom: 50px;
+
+}
+
 .tooltip {
     position: absolute;
     text-align: left;
@@ -24,6 +30,11 @@
 
 .timeLabel{
     /*transform: rotate(-90deg);*/
+}
+
+.countryLabel{
+    text-align: right;
+    text-orientation: sideways;
 }
 
 #secondgroup{

@@ -35,6 +35,7 @@ function onRadiobuttonChange(){
         let year = d3.select("#yearslider").select('input').property('value');
         mapObject.updateMap(year);
         d3.selectAll(".clicked").classed("clicked",false);
+        heatmapObject.updateHeatMap();
 
 }
 /*---------------------------------------------CHECKBOX-----------------------------------------------------*/

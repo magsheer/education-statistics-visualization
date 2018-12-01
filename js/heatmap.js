@@ -11,7 +11,7 @@ class heatmap{
 
       let country_or_region = this.findregionorcountry();
     if(country_or_region == "region_radio")
-      this.populate_region();
+      this.plotheat_region();
     else
       this.plotheat_country();
 
@@ -152,6 +152,142 @@ class heatmap{
                   return color(d); });
 
       }
+
+      plotheat_region() {
+
+            d3.select("#allcells").remove();
+            var tooltip = d3.select("#linechart").append("div").attr("class", "tooltip");
+            let that =this;
+
+            //for legend 
+            let years = [];
+            let year_axes = [];
+            let country_codes = ['NAC','SAS','EAS','LCN','SSF','ECS','MEA'];;
+            let country_axes = ["North America","South Asia","East Asia & Pacific","Latin America & Caribbean","Sub-Saharan Africa","Europe & Central Asia","Middle East & North Africa"];
+            
+            let index1 =0;
+            let index2 =2;
+            for(let i =1970; i<2018; i++){
+              years[index1++] = "yr_"+i;
+              year_axes[index2++] = i;
+            }
+              
+            console.log(years,country_axes,year_axes,country_codes);
+            
+            //indicator selected
+            let indicatorSelected = this.findIndicator();
+            let indicatorData = this.data[indicatorSelected];
+
+            console.log(indicatorData);
+
+
+            var n = country_codes.length; //row
+            var m = years.length; //column
+            var matrix = new Array(n);
+            for(var i = 0; i < n; i++) {
+              matrix[i] = new Array(m);
+              let index = that.nameArray.indexOf(country_codes[i]);
+              for(var j = 0; j < m; j++) {
+                if(indicatorData[index][years[j]]!="")
+                  matrix[i][j] = parseFloat(indicatorData[index][years[j]]);
+                else 
+                  matrix[i][j] = 0;
+              }
+            }
+
+            console.log(matrix);
+
+            var width = (20*m)+50; 
+            var height = (20*n)+50; 
+            var gridSize = 20;
+
+            var svg = d3.select("#heatmap").append("svg").attr("id","allcells").attr("width", width).attr("height", height).attr("transform","translate(150, 200)");
+            let g = svg.append("g").attr("transform", "translate(" + 0 + "," + 0 + ")");
+
+
+            var scaleRow = d3.scaleBand().rangeRound([50, height]).domain(d3.range(n));
+            var scaleCol = d3.scaleBand().rangeRound([50, width]).domain(d3.range(m));
+
+            var timeLabels = svg.selectAll(".timeLabel")
+            .data(year_axes)
+            .enter()
+            .append("text")
+            .attr("class","timeLabel")
+            .text(function(d) { return d; })
+            .attr("x", function(d, i) { return i * gridSize; })
+            .attr("y", 0)
+            .style("text-anchor", "middle")
+            .attr("transform", function(d,i){
+              let x = i *gridSize + 20;
+              return "rotate(-90,"+ x +",0)";});
+
+            var countryLabels = svg.selectAll(".countryLabel")
+            .data(country_codes)
+            .enter()
+            .append("text")
+            .attr("class","countryLabel")
+            .text(function(d) { return d; })
+            .attr("x", 0)
+            .attr("y", function(d, i) { return i * gridSize; })
+            .style("text-anchor", "middle")
+            .attr("transform","translate(20,70)");
+            // .attr("transform", function(d,i){
+            //   let x = i *gridSize + 20;
+            //   return "rotate(-90,"+ x +",0)";});
+
+            let color = d3.scaleQuantize()
+                    .domain([1, 100])
+                    .range(d3.schemeYlGnBu[9]);
+
+        //     let x = d3.scaleLinear()
+        //             .domain(d3.extent(color.domain()))
+        //             .rangeRound([650, 900]);
+
+        //     let format = d3.format("");
+
+        //     let gg = svg.append("g")
+        //             .attr("transform", "translate(-100,0)");
+
+        // gg.selectAll("rect")
+        //   .data(color.range().map(d => color.invertExtent(d)))
+        //   .enter()
+        //   .append("rect")
+        //   .attr("height", 8)
+        //   .attr("x", d => x(d[0]))
+        //   .attr("width", d => x(d[1]) - x(d[0]))
+        //   .attr("fill", d => color(d[0]));
+
+
+        // gg.call(d3.axisBottom(x)
+        // .tickSize(13)
+        // .tickFormat(format)
+        // .tickValues(color.range().slice(1).map(d => color.invertExtent(d)[0])))
+        // .select(".domain")
+        // .remove();
+
+            g.selectAll(".row")
+              .data(matrix)
+              .enter()
+              .append("g")
+              .attr("class", "row")
+              .attr("transform", function(d, i) { return "translate(0," + scaleRow(i) + ")"; })
+              .selectAll(".cell")
+              .data(function(d) { return d })
+              .enter()
+              .append("rect")
+              .attr("class", "cell")
+              .attr("x", function(d, i) { return scaleCol(i); })
+              .attr("width", scaleCol.bandwidth())
+              .attr("height", scaleRow.bandwidth())
+              .attr("opacity", 0.9)
+              .attr("fill", function(d) {
+                if (d==0) 
+                  return "#bababa";
+                else
+                  return color(d); });
+
+      }
+
 
 
       findIndicator(){
