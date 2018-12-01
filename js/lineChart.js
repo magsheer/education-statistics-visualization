@@ -6,6 +6,7 @@ class lineChart{
 	}
 
 	drawPlot(country_region){
+		try{
 		let that = this;
 
 		//find out the indicator selected
@@ -168,7 +169,8 @@ class lineChart{
             	else
             		return 420 - d[1]});
 
-
+}//try
+catch(err){}
 	}
 
 

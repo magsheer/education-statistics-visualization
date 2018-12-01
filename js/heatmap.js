@@ -99,7 +99,7 @@ class heatmap{
             var height = (20*n)+50; 
             var gridSize = 20;
 
-            var svg = d3.select("#heatmap").append("svg").attr("id","allcells").attr("width", width).attr("height", height).attr("transform","translate(150, 200)");
+            var svg = d3.select("#heatmap").append("svg").attr("id","allcells").attr("width", width).attr("height", height).attr("transform","translate(150, 50)");
             let g = svg.append("g").attr("transform", "translate(" + 0 + "," + 0 + ")");
 
 
@@ -243,7 +243,7 @@ class heatmap{
             var height = (20*n)+50; 
             var gridSize = 20;
 
-            var svg = d3.select("#heatmap").append("svg").attr("id","allcells").attr("width", width).attr("height", height).attr("transform","translate(150, 200)");
+            var svg = d3.select("#heatmap").append("svg").attr("id","allcells").attr("width", width).attr("height", height).attr("transform","translate(150, 50)");
             let g = svg.append("g").attr("transform", "translate(" + 0 + "," + 0 + ")");
 
 
@@ -367,6 +367,7 @@ class heatmap{
 
 
       findIndicator(){
+        try{
         let selectValue = d3.select('select').property('value');
         switch(selectValue){
             case "Adult literacy rate, population 15+ years, both sexes (%)":
@@ -376,6 +377,8 @@ class heatmap{
             case "Adult literacy rate, population 15+ years, male (%)":
                 return "indicator3";
         }
+      }//try
+      catch(err){}
     }
 
     findregionorcountry(){
