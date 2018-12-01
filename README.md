@@ -30,6 +30,6 @@
 
 ## Links
 
-[Project Website]
-[Process Book](https://en.wikipedia.org/wiki/Anscombe%27s_quartet)
-[Screen Cast]()
+[Project Website](https://magsheer.github.io/education-statistics-visualization/)
+[Process Book](https://magsheer.github.io/education-statistics-visualization/pdf/ProcessBook.pdf)
+[Screen Cast](https://youtu.be/77um4bpP6po)
