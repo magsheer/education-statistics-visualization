@@ -22,6 +22,7 @@ function onDropdownChange() {
     mapObject.updateMap(year);
     let current_selection = document.getElementById("rectg").getAttribute("class");
     lineObject.drawPlot(current_selection);
+    heatmapObject.updateHeatMap();
 };
 
 /*-------------------------------------------RADIOBUTTONS-----------------------------------------------*/

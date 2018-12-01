@@ -22,6 +22,10 @@
     visibility: hidden;
   }
 
+.timeLabel{
+    /*transform: rotate(-90deg);*/
+}
+
 #secondgroup{
     float:left;
 }
