@@ -7,7 +7,6 @@
 
     education-statistics-visualization/
         index.html
-        script.js
         data/
             adult_literacy_rate_both_sexes.csv
             adult_literacy_rate_female.csv
